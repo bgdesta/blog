@@ -1,7 +1,9 @@
 package edu.miu.blog.articleservice.controller;
 
 import edu.miu.blog.articleservice.domain.Article;
+import edu.miu.blog.articleservice.dto.ArticleDto;
 import edu.miu.blog.articleservice.service.ArticleService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +18,8 @@ public class ArticleController {
     private ArticleService articleService;
 
     @GetMapping("/")
-    public List<Article> getAllPosts(){
+    public List<ArticleDto> getAllArticles(){
+
         return articleService.getAll();
     }
 

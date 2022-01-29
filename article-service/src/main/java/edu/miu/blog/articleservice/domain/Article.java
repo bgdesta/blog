@@ -20,16 +20,16 @@ public class Article {
     @NotBlank
     private String title;
 
-    @NotEmpty
+    @NotEmpty(message = "* Summary for articles are needed")
     private String summary;
 
     @Lob
-    @NotEmpty
+    @NotEmpty(message = "* Article content can't be empty")
     private String content;
     private boolean isPublished;    // Could also be an ENUM - PUBLISHED, DRAFT
     private Date createdAt;
     private Date updatedAt;
     private Date publishedAt;
 
-
+    private Long topic_id;
 }
