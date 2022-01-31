@@ -1,0 +1,20 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: ApiGatewayService
+  cloud:
+    gateway:
+      routes:
+        - id: IdentityProviderService
+          uri: lb://IDENTITYPROVIDERSERVICE
+          predicates:
+            - Path=/security/**, /users/**
+        - id: NetworkService
+          uri: lb://NETWORKSERVICE
+          predicates:
+            - Path=/follows/**
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8081/eureka
