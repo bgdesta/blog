@@ -5,7 +5,6 @@ import edu.miu.blog.topicservice.repository.TopicRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -36,5 +35,15 @@ public class TopicServiceImpl implements TopicService{
 //        tpc.setUpdatedAt(new Date());
 
         return topicRepository.save(tpc);
+    }
+
+    @Override
+    public Topic getTopicByName(String name) {
+        return topicRepository.findTopicByName(name);
+    }
+
+    @Override
+    public Topic getTopicById(Long id) {
+        return topicRepository.findById(id).orElseThrow();
     }
 }

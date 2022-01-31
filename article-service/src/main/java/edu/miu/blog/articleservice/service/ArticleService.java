@@ -5,6 +5,7 @@ import edu.miu.blog.articleservice.dto.request.ArticleDto;
 import edu.miu.blog.articleservice.dto.request.PostArticleDto;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ArticleService {
     List<ArticleDto> getAll();
@@ -14,4 +15,6 @@ public interface ArticleService {
     void deleteArticleById(Long id);
 
     Article updateArticle(Long id, ArticleDto article);
+
+    Optional<Article> getArticleById(Long id);
 }
