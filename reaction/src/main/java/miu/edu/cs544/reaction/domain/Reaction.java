@@ -30,10 +30,10 @@ public class Reaction {
     private Date Createdat;
     private Date updatedat;
 
-    @NotNull(message = "Reaction name is mandatory")
+    //@NotNull(message = "Reaction name is mandatory")
 
     private ReactName reactionname;
-    @NotNull(message = "Reaction type is mandatory")
+   // @NotNull(message = "Reaction type is mandatory")
     private ReactType reactionto;
 
     public Reaction(long user_id, long post_id, ReactName reactionName, ReactType reactionTo) {

@@ -11,7 +11,7 @@ import java.io.Serializable;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/comments")
+@RequestMapping("/comments")
 public class CommentController implements Serializable {
     private static final long serialVersionUID = 1L;
 

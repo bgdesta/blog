@@ -13,11 +13,11 @@ import java.util.Map;
 
 public class RestReactClient {
 
-    private static final String GET_ALL_REACTS_API ="http://localhost:8082/api/reacts";
-    private static final String GET_REACT_BY_ID_API ="http://localhost:8082/api/reacts/{id}";
-    private static final String CREATE_REACT_API ="http://localhost:8082/api/reacts";
-    private static final String UPDATE_REACT_API ="http://localhost:8082/api/reacts/{id}";
-    private static final String DELETE_REACT_API ="http://localhost:8082/api/reacts/{id}";
+    private static final String GET_ALL_REACTS_API ="http://localhost:8086/reactions";
+    private static final String GET_REACT_BY_ID_API ="http://localhost:8086/reactions/{id}";
+    private static final String CREATE_REACT_API ="http://localhost:8086/reactions";
+    private static final String UPDATE_REACT_API ="http://localhost:8086/reactions/{id}";
+    private static final String DELETE_REACT_API ="http://localhost:8086/reactions/{id}";
 
     static RestTemplate restTemplate = new RestTemplate();
 
