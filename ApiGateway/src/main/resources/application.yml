@@ -1,6 +1,5 @@
 server:
   port: 8080
-  address: 192.168.200.234
 spring:
   application:
     name: ApiGatewayService
