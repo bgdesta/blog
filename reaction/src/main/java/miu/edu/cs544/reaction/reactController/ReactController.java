@@ -1,11 +1,13 @@
 package miu.edu.cs544.reaction.reactController;
 
-import miu.edu.cs544.reaction.domain.React;
+import miu.edu.cs544.reaction.domain.Reaction;
 import miu.edu.cs544.reaction.reactService.ReactService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -16,31 +18,36 @@ public class ReactController {
 
 
     @GetMapping
-    public List<React> getAllReacts() {
+    public List<Reaction> getAllReacts() {
 
         return this.reactService.getAllReacts();
     }
 
     @GetMapping("/{id}")
-    public React getReactById(@PathVariable(value = "id") long reactId) {
+    public Reaction getReactById(@PathVariable(value = "id") long reactId) {
         return this.reactService.getReactById(reactId);
 
     }
-        @PostMapping
-        public React createReact(@RequestBody React react) {
+
+    @PostMapping
+    public Reaction createReact(@RequestBody Reaction react) {
 
             return this.reactService.createReact(react);
         }
+//    @PostMapping
+//    public ResponseEntity<Reaction> createReact(@RequestBody Reaction react) {
+//
+//        Reaction savedReact = this.reactService.createReact(react);
+//        return new ResponseEntity<Reaction>(savedReact, HttpStatus.CREATED);
+//    }
 
         @PutMapping("/{id}")
-        public React updateReact(@RequestBody React react, @PathVariable(value = "id") long reactId){
-
+        public Reaction updateReact(@Valid @RequestBody Reaction react, @PathVariable(value = "id") long reactId){
             return  this.reactService.updateReact(react,reactId);
-
 
         }
         @DeleteMapping("/{id}")
-        public ResponseEntity<React> deleteReact( @PathVariable(value = "id") long reactId){
+        public ResponseEntity<Reaction> deleteReact(@PathVariable(value = "id") long reactId){
             return this.reactService.deleteReact(reactId);
 
         }

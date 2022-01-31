@@ -1,5 +1,12 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8081/eureka
+    instance:
+    preferIpAddress: true
 spring:
-application:
-name: react-service
-server:
-server.port: 8082
+  application:
+    name: reactionservice
+
+  server:
+      port:8086:

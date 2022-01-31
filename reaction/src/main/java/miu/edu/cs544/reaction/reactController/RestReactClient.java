@@ -1,7 +1,7 @@
 package miu.edu.cs544.reaction.reactController;
 
 
-import miu.edu.cs544.reaction.domain.React;
+import miu.edu.cs544.reaction.domain.Reaction;
 import miu.edu.cs544.reaction.enums.ReactName;
 import miu.edu.cs544.reaction.enums.ReactType;
 import org.springframework.http.*;
@@ -24,14 +24,14 @@ public class RestReactClient {
     public static void  main(String[] args){
 
         callCreateReactAPI();
-        callCreateReactAPI();
-
-        callGetAllReactAPI();
-        callGetReactByIdAPI();
-
-        callUpdateReactAPI();
-        callGetAllReactAPI();
-        callDeleteReactAPI();
+//        callCreateReactAPI();
+//
+//        callGetAllReactAPI();
+//        callGetReactByIdAPI();
+//
+//        callUpdateReactAPI();
+//        callGetAllReactAPI();
+//        callDeleteReactAPI();
     }
     private static void callGetAllReactAPI(){
         HttpHeaders headers = new HttpHeaders();
@@ -44,23 +44,23 @@ public class RestReactClient {
     private static void callGetReactByIdAPI(){
         Map<String, Integer> param = new HashMap<>();
         param.put("id", 2); //to update react with id = 1
-        React react = restTemplate.getForObject(GET_REACT_BY_ID_API, React.class, param);
-        System.out.println(react.getCreatedAt());
-        System.out.println(react.getPost_id());
-        System.out.println(react.getUser_id());
+        Reaction react = restTemplate.getForObject(GET_REACT_BY_ID_API, Reaction.class, param);
+        System.out.println(react.getCreatedat());
+        System.out.println(react.getPostid());
+        System.out.println(react.getUserid());
 
     }
     private static void callCreateReactAPI(){
-        React react = new React(102, 123, ReactName.LIKE, ReactType.ARTICLE);
-        ResponseEntity<React> react2 =restTemplate.postForEntity(CREATE_REACT_API, react, React.class);
+        Reaction react = new Reaction(102, 123, ReactName.LIKE, ReactType.ARTICLE);
+        ResponseEntity<Reaction> react2 =restTemplate.postForEntity(CREATE_REACT_API, react, Reaction.class);
         System.out.println(react2.getBody());
 
-        react = new React(321, 5678, ReactName.DISLIKE, ReactType.POST);
-        react2 =restTemplate.postForEntity(CREATE_REACT_API,react, React.class);
+        react = new Reaction(321, 5678, ReactName.DISLIKE, ReactType.POST);
+        react2 =restTemplate.postForEntity(CREATE_REACT_API,react, Reaction.class);
         System.out.println(react2.getBody());
 
-        react = new React(1054, 4567, ReactName.LIKE, ReactType.COMMENT);
-        react2 =restTemplate.postForEntity(CREATE_REACT_API, react, React.class);
+        react = new Reaction(1054, 4567, ReactName.LIKE, ReactType.COMMENT);
+        react2 =restTemplate.postForEntity(CREATE_REACT_API, react, Reaction.class);
         System.out.println(react2.getBody());
 
     }
@@ -68,13 +68,13 @@ public class RestReactClient {
     private static void callUpdateReactAPI(){
         Map<String, Integer> param = new HashMap<>();
         param.put("id", 2); //to update comment with id = 1
-        React updateReact = new React(1112, 34521, ReactName.DISLIKE, ReactType.POST);
+        Reaction updateReact = new Reaction(1112, 34521, ReactName.DISLIKE, ReactType.POST);
         restTemplate.put(UPDATE_REACT_API,updateReact, param);
 
     }
     private static void callDeleteReactAPI(){
         Map<String, Integer> param = new HashMap<>();
-        param.put("id", 3); //to update comment with id = 1
+        param.put("id", 3);
         restTemplate.delete(DELETE_REACT_API, param);
     }
 }

@@ -1,22 +1,21 @@
 package miu.edu.cs544.reaction.reactService;
 
 
-import miu.edu.cs544.reaction.domain.React;
+import miu.edu.cs544.reaction.domain.Reaction;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
 public interface ReactService {
 
 
-    public List<React> getAllReacts();
+    public List<Reaction> getAllReacts();
 
-    public React getReactById(long reactId);
+    public Reaction getReactById(long reactId);
 
-    public React createReact(React react);
+    public Reaction createReact(Reaction react);
 
-    public ResponseEntity<React> deleteReact(long reactId);
+    public ResponseEntity<Reaction> deleteReact(long reactId);
 
-    React updateReact(React react, long reactId);
+    Reaction updateReact(Reaction react, long reactId);
 }
