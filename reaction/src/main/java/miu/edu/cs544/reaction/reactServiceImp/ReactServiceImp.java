@@ -1,6 +1,6 @@
 package miu.edu.cs544.reaction.reactServiceImp;
 
-import miu.edu.cs544.reaction.domain.React;
+import miu.edu.cs544.reaction.domain.Reaction;
 import miu.edu.cs544.reaction.exception.ResourceNotFoundException;
 import miu.edu.cs544.reaction.reactRepository.ReactRepository;
 import miu.edu.cs544.reaction.reactService.ReactService;
@@ -16,36 +16,36 @@ public class ReactServiceImp implements ReactService {
     @Autowired
     private ReactRepository reactRepository;
 
-        public List<React> getAllReacts() {
+        public List<Reaction> getAllReacts() {
 
         return this.reactRepository.findAll();
     }
 
 
-    public React getReactById(long reacttId) {
-        return this.reactRepository.findById(reacttId).orElseThrow(() -> new ResourceNotFoundException("React not found with id :" + reacttId));
+    public Reaction getReactById(long reactId) {
+        return this.reactRepository.findById(reactId).orElseThrow(() -> new ResourceNotFoundException("React not found with id :" + reactId));
     }
 
 
-    public React createReact(React react) {
+    public Reaction createReact(Reaction react) {
 
         return this.reactRepository.save(react);
     }
 
 
-    public React updateReact(React react,  long reactId){
+    public Reaction updateReact(Reaction react, long reactId){
 
-        React existingreact = this.reactRepository.findById(reactId)
+        Reaction existingreact = this.reactRepository.findById(reactId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with id :" + reactId));
-        existingreact.setPost_id(react.getPost_id());
-        existingreact.setUser_id(react.getUser_id());
-        existingreact.setCreatedAt(react.getCreatedAt());
+        existingreact.setPostid(react.getPostid());
+        existingreact.setUserid(react.getUserid());
+        existingreact.setCreatedat(react.getCreatedat());
 
         return this.reactRepository.save(existingreact);
     }
 
-    public ResponseEntity<React> deleteReact( long reactId){
-        React existingComment = this.reactRepository.findById(reactId)
+    public ResponseEntity<Reaction> deleteReact(long reactId){
+        Reaction existingComment = this.reactRepository.findById(reactId)
                 .orElseThrow(() -> new ResourceNotFoundException("Comment not found with id :" + reactId));
         this.reactRepository.delete(existingComment);
         return ResponseEntity.ok().build();

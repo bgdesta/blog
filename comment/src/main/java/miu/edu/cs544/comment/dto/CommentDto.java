@@ -1,6 +1,5 @@
 package miu.edu.cs544.comment.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,7 +11,7 @@ import javax.validation.constraints.Size;
 @Setter
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
+
 public class CommentDto {
     private Long comId;
     @NotBlank
