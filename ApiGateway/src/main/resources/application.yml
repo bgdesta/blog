@@ -10,10 +10,32 @@ spring:
           uri: lb://IDENTITYPROVIDERSERVICE
           predicates:
             - Path=/security/**, /users/**
+
         - id: NetworkService
           uri: lb://NETWORKSERVICE
           predicates:
-            - Path=/follows/**
+            - Path=/follows/**,/users/*/follows/**
+
+        - id: ArticleService
+          uri: lb://ARTICLESERVICE
+          predicates:
+            - Path=/articles/**
+
+        - id: TopicService
+          uri: lb://TOPICSERVICE
+          predicates:
+            - Path=/topics/**
+
+        - id: CommentService
+          uri: lb://COMMENTSERVICE
+          predicates:
+            - Path=/comments/**
+
+        - id: ReactionService
+          uri: lb://REACTIONSERVICE
+          predicates:
+            - Path=/reactions/**
+
 eureka:
   client:
     serviceUrl:
