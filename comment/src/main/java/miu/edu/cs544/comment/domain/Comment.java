@@ -10,7 +10,6 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 import java.util.Date;
-
 @Setter
 @Getter
 @NoArgsConstructor
@@ -20,25 +19,21 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long comId;
     private Long userId;
-
-    //@ManyToOne
-    //private Post post;
-    //parent Id
     @NotBlank
     @NotEmpty(message = "Title Couldn't be empty")
-    @Size(min = 2, max = 100, message = "Title Couldn't be empty")
-    private String title; //The comment title
 
-    private boolean isPublished;//    Published It can be used to identify whether the comment is publicly available.
+    private String title;
+
+    private boolean isPublished;// Published It can be used to identify whether the comment is publicly available.
     private Date createdAt; // 	It stores the date and time at which the comment is submitted.
-    private Date publishedAt;// 	It stores the date and time at which the comment is published.
+    private Date publishedAt;// It stores the date and time at which the comment is published.
     @Lob
     @NotEmpty(message = "content Couldn't be empty")
     @Size(min = 2, max = 100, message = "Title Couldn't be empty")
-    private String content; // 	The column used to store the comment data.
+    private String content;
+
 
     public Comment(String title, boolean isPublished, String content) {
-
         this.title = title;
         this.isPublished = isPublished;
         this.content = content;
