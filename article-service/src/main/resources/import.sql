@@ -1,0 +1,3 @@
+
+INSERT INTO ARTICLE(id, title, summary, content, is_published, created_at, updated_at, published_at, topic_id) VALUES (1001, 'title1', 'summary1', 'content1', true, '2021-01-01', '2021-01-01', '2021-01-01', 1);
+INSERT INTO ARTICLE(id, title, summary, content, is_published, created_at, updated_at, published_at, topic_id) VALUES (1002, 'title2', 'summary2', 'content2', true, '2022-02-02', '2022-02-02', '2022-02-02', 1);
