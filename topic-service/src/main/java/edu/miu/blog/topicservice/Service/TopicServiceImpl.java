@@ -33,7 +33,7 @@ public class TopicServiceImpl implements TopicService{
     public Topic updateTopic(Long id, Topic topic) {
         Topic tpc = topicRepository.findById(id).get();
         tpc.setName(topic.getName());
-        tpc.setUpdatedAt(new Date());
+//        tpc.setUpdatedAt(new Date());
 
         return topicRepository.save(tpc);
     }

@@ -1,38 +1,48 @@
 package edu.miu.blog.articleservice.controller;
 
 import edu.miu.blog.articleservice.domain.Article;
-import edu.miu.blog.articleservice.dto.ArticleDto;
+import edu.miu.blog.articleservice.dto.request.ArticleDto;
+import edu.miu.blog.articleservice.dto.request.PostArticleDto;
 import edu.miu.blog.articleservice.service.ArticleService;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/posts")
+@RequestMapping("/articles")
 public class ArticleController {
 
     @Autowired
     private ArticleService articleService;
 
-    @GetMapping("/")
+    @GetMapping()
     public List<ArticleDto> getAllArticles(){
 
         return articleService.getAll();
     }
 
     // Create an article
-    @PostMapping("/")
-    public Article createArticle(@Valid @RequestBody Article article){
-        return articleService.createArticle(article);
+    @PostMapping()
+    public String createArticle(@Valid @RequestBody PostArticleDto articleDto, BindingResult result){
+        if (result.hasErrors()){
+            List<ObjectError> allErrors = result.getAllErrors();
+
+            for (ObjectError temp : allErrors) {
+                return temp.getDefaultMessage();
+            }
+        }
+        articleService.createArticle(articleDto);
+        return "Article saved successfully";
     }
 
     // Update article
     @PutMapping("/{id}")
-    public Article updateArticle(@PathVariable Long id, @RequestBody Article article){
-        return articleService.updateArticle(id, article);
+    public Article updateArticle(@PathVariable Long id, @RequestBody ArticleDto articleDto){
+        return articleService.updateArticle(id, articleDto);
     }
 
     // Delete article

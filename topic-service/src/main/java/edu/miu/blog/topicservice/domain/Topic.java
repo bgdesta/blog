@@ -17,6 +17,7 @@ public class Topic {
 
     @NotEmpty
     private String name;
+
     private Date createdAt;
     private Date updatedAt;
 }
