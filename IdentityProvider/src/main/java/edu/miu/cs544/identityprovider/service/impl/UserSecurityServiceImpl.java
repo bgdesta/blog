@@ -55,9 +55,11 @@ public class UserSecurityServiceImpl implements UserSecurityService {
     public UserReadDto createUser(UserCreateDto userDto) {
         User user = mapper.map(userDto, User.class);
 
+        log.info("New user Entry: " + user);
         UserSecurity userSecurity = defaultUserSecurity(user.getEmail(), userDto.getPassword());
         user.setUserSecurity(userSecurity);
 
+        log.info("New user Before: " + user);
         userRepository.save(user);
         log.info("New user created: " + user);
 
@@ -84,7 +86,8 @@ public class UserSecurityServiceImpl implements UserSecurityService {
 
         userSecurity.setUserName(userName);
         userSecurity.setPassword(passwordEncoder.encode(password));
-        userSecurity.addRole(roleRepository.findById(3L).orElseThrow());
+//        Optional<Role> role = roleRepository.findByName("Consumer");
+//        userSecurity.addRole(role.orElse(null));
         return userSecurity;
     }
 

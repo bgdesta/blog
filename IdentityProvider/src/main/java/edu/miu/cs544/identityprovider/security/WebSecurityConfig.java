@@ -26,9 +26,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().authenticationEntryPoint(authEntryPointJwt).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
-                .antMatchers("/security/login/", "/security/register/", "/security/logout/", "/security/resetPassword/")
-                    .permitAll()
-                .anyRequest().authenticated();
+//                .antMatchers("/security/login/", "/security/register/", "/security/logout/", "/security/resetPassword/")
+//                    .permitAll()
+                .anyRequest().permitAll();
 
         httpSecurity.addFilterBefore(
                 jwtAuthTokenFilter,

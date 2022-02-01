@@ -1,5 +1,6 @@
 package edu.miu.cs544.identityprovider.controller;
 
+import edu.miu.cs544.identityprovider.domain.Role;
 import edu.miu.cs544.identityprovider.domain.Scope;
 import edu.miu.cs544.identityprovider.dto.*;
 import edu.miu.cs544.identityprovider.jwt.JwtTokenUtil;
@@ -42,7 +43,11 @@ public class UserSecurityController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         Long userId = userSecurityService.currentUserDto().getId();
-        String role = userSecurityService.getUserRoles(userId).get(0).getName();
+        List<RoleDto> roles = userSecurityService.getUserRoles(userId);
+        String role = "";
+        if(roles.size() > 0) {
+            role = roles.get(0).getName();
+        }
         List<Long> authorizedScopes = userSecurityService.getUserAuthorizedScopes(userId).stream()
                 .map(scopeDto -> scopeDto.getId()).collect(Collectors.toList());
         HashMap<String, Object> claims = new HashMap<>();
