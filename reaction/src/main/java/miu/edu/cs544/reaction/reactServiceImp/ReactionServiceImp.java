@@ -2,8 +2,8 @@ package miu.edu.cs544.reaction.reactServiceImp;
 
 import miu.edu.cs544.reaction.domain.Reaction;
 import miu.edu.cs544.reaction.exception.ResourceNotFoundException;
-import miu.edu.cs544.reaction.reactRepository.ReactRepository;
-import miu.edu.cs544.reaction.reactService.ReactService;
+import miu.edu.cs544.reaction.reactRepository.ReactionRepository;
+import miu.edu.cs544.reaction.reactService.ReactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -12,9 +12,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class ReactServiceImp implements ReactService {
+public class ReactionServiceImp implements ReactionService {
     @Autowired
-    private ReactRepository reactRepository;
+    private ReactionRepository reactRepository;
 
         public List<Reaction> getAllReacts() {
 

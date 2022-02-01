@@ -4,8 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import miu.edu.cs544.reaction.enums.ReactName;
-import miu.edu.cs544.reaction.enums.ReactType;
+import miu.edu.cs544.reaction.enums.ReactionName;
+import miu.edu.cs544.reaction.enums.ReactionType;
 
 import javax.validation.constraints.NotEmpty;
 
@@ -21,7 +21,7 @@ public class ReactionDto {
     private long post_id;
 
     @NotEmpty(message = "Reaction name is mandatory")
-    private ReactName reactName;
+    private ReactionName reactName;
     @NotEmpty(message = "Reaction type is mandatory")
-    private ReactType reactionTo;
+    private ReactionType reactionTo;
 }

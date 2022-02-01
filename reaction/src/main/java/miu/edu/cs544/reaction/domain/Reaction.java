@@ -3,13 +3,12 @@ package miu.edu.cs544.reaction.domain;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import miu.edu.cs544.reaction.enums.ReactName;
-import miu.edu.cs544.reaction.enums.ReactType;
+import miu.edu.cs544.reaction.enums.ReactionName;
+import miu.edu.cs544.reaction.enums.ReactionType;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import java.util.Date;
@@ -32,14 +31,14 @@ public class Reaction {
 
     @NotNull(message = "Reaction name is mandatory")
 
-    private ReactName reactionname;
+    private ReactionName reactionname;
     @NotNull(message = "Reaction type is mandatory")
-    private ReactType reactionto;
+    private ReactionType reactionto;
 
-    public Reaction(long user_id, long post_id, ReactName reactionName, ReactType reactionTo) {
+    public Reaction(long userid, long postid, ReactionName reactionName, ReactionType reactionTo) {
 
-        this.userid = user_id;
-        this.postid = post_id;
+        this.userid = userid;
+        this.postid = postid;
 
 
         this.reactionname = reactionName;

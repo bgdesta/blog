@@ -2,8 +2,8 @@ package miu.edu.cs544.reaction.reactController;
 
 
 import miu.edu.cs544.reaction.domain.Reaction;
-import miu.edu.cs544.reaction.enums.ReactName;
-import miu.edu.cs544.reaction.enums.ReactType;
+import miu.edu.cs544.reaction.enums.ReactionName;
+import miu.edu.cs544.reaction.enums.ReactionType;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -51,15 +51,15 @@ public class RestReactClient {
 
     }
     private static void callCreateReactAPI(){
-        Reaction react = new Reaction(102, 123, ReactName.LIKE, ReactType.ARTICLE);
+        Reaction react = new Reaction(102, 123, ReactionName.LIKE, ReactionType.ARTICLE);
         ResponseEntity<Reaction> react2 =restTemplate.postForEntity(CREATE_REACT_API, react, Reaction.class);
         System.out.println(react2.getBody());
 
-        react = new Reaction(321, 5678, ReactName.DISLIKE, ReactType.POST);
+        react = new Reaction(321, 5678, ReactionName.DISLIKE, ReactionType.POST);
         react2 =restTemplate.postForEntity(CREATE_REACT_API,react, Reaction.class);
         System.out.println(react2.getBody());
 
-        react = new Reaction(1054, 4567, ReactName.LIKE, ReactType.COMMENT);
+        react = new Reaction(1054, 4567, ReactionName.LIKE, ReactionType.COMMENT);
         react2 =restTemplate.postForEntity(CREATE_REACT_API, react, Reaction.class);
         System.out.println(react2.getBody());
 
@@ -68,7 +68,7 @@ public class RestReactClient {
     private static void callUpdateReactAPI(){
         Map<String, Integer> param = new HashMap<>();
         param.put("id", 2); //to update comment with id = 1
-        Reaction updateReact = new Reaction(1112, 34521, ReactName.DISLIKE, ReactType.POST);
+        Reaction updateReact = new Reaction(1112, 34521, ReactionName.DISLIKE, ReactionType.POST);
         restTemplate.put(UPDATE_REACT_API,updateReact, param);
 
     }
