@@ -5,6 +5,7 @@ import edu.miu.blog.topicservice.domain.Topic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,7 +34,8 @@ public class TopicController {
     }
     // create a topic
     @PostMapping()
-    public Topic createTopic(@RequestBody Topic topic){
+    @PreAuthorize("#role=='Admin'")
+    public Topic createTopic(@RequestBody Topic topic, @RequestHeader String role){
         return topicService.createTopic(topic);
     }
 

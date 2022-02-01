@@ -5,6 +5,7 @@ import edu.miu.blog.articleservice.dto.request.ArticleDto;
 import edu.miu.blog.articleservice.dto.request.PostArticleDto;
 import edu.miu.blog.articleservice.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +34,8 @@ public class ArticleController {
 
     // Create an article
     @PostMapping()
-    public String createArticle(@Valid @RequestBody PostArticleDto articleDto, BindingResult result){
+    @PreAuthorize("#role=='Blogger'")
+    public String createArticle(@Valid @RequestBody PostArticleDto articleDto, @RequestHeader String role, BindingResult result){
         if (result.hasErrors()){
             List<ObjectError> allErrors = result.getAllErrors();
 
@@ -47,7 +49,8 @@ public class ArticleController {
 
     // Update article
     @PutMapping("/{id}")
-    public Article updateArticle(@PathVariable Long id, @RequestBody ArticleDto articleDto){
+    @PreAuthorize("#role=='Blogger'")
+    public Article updateArticle(@PathVariable Long id, @RequestBody ArticleDto articleDto, @RequestHeader String role){
         return articleService.updateArticle(id, articleDto);
     }
 
