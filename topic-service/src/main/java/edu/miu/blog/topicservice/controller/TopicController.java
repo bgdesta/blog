@@ -32,12 +32,18 @@ public class TopicController {
     public Topic getTopicByName(@RequestParam String name){
         return topicService.getTopicByName(name);
     }
+
     // create a topic
     @PostMapping()
-    @PreAuthorize("#role=='Admin'")
-    public Topic createTopic(@RequestBody Topic topic, @RequestHeader String role){
+    public Topic createTopic(@RequestBody Topic topic){
         return topicService.createTopic(topic);
     }
+//    // create a topic
+//    @PostMapping()
+//    @PreAuthorize("#role=='Admin'")
+//    public Topic createTopic(@RequestBody Topic topic, @RequestHeader String role){
+//        return topicService.createTopic(topic);
+//    }
 
     // Update topic
     @PutMapping("/{topicId}")

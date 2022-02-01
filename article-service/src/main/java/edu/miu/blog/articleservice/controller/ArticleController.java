@@ -49,10 +49,14 @@ public class ArticleController {
 
     // Update article
     @PutMapping("/{id}")
-    @PreAuthorize("#role=='Blogger'")
-    public Article updateArticle(@PathVariable Long id, @RequestBody ArticleDto articleDto, @RequestHeader String role){
+    public Article updateArticle(@PathVariable Long id, @RequestBody ArticleDto articleDto){
         return articleService.updateArticle(id, articleDto);
     }
+//    @PutMapping("/{id}")
+//    @PreAuthorize("#role=='Blogger'")
+//    public Article updateArticle(@PathVariable Long id, @RequestBody ArticleDto articleDto, @RequestHeader String role){
+//        return articleService.updateArticle(id, articleDto);
+//    }
 
     // Delete article
     @DeleteMapping("/{id}")
