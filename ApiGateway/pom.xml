@@ -26,8 +26,10 @@
     <name>ApiGateway</name>
     <description>ApiGateway</description>
     <properties>
-        <java.version>17</java.version>
+        <java.version>16</java.version>
         <spring-cloud.version>2021.0.0</spring-cloud.version>
+        <maven.compiler.source>16</maven.compiler.source>
+        <maven.compiler.target>16</maven.compiler.target>
     </properties>
     <dependencies>
         <dependency>
@@ -76,5 +78,16 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${project.parent.version}</version>
+            </plugin>
+        </plugins>
+    </build>
+
 
 </project>

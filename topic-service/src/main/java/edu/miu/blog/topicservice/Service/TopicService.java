@@ -12,4 +12,8 @@ public interface TopicService {
     void deleteById(Long id);
 
     Topic updateTopic(Long id, Topic topic);
+
+    Topic getTopicByName(String name);
+
+    Topic getTopicById(Long id);
 }

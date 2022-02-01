@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/articles")
@@ -19,10 +20,15 @@ public class ArticleController {
     @Autowired
     private ArticleService articleService;
 
-    @GetMapping()
+    @GetMapping
     public List<ArticleDto> getAllArticles(){
 
         return articleService.getAll();
+    }
+
+    @GetMapping("/{id}")
+    public Optional<Article> getArticleById(@PathVariable Long id){
+        return articleService.getArticleById(id);
     }
 
     // Create an article
