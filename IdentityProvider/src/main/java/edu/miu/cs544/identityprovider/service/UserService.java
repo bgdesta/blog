@@ -11,7 +11,6 @@ public interface UserService {
     List<UserReadDto> findAll();
     List<UserReadDto> findAll(Pageable pageable);
     UserReadDto findById(Long id);
-    UserReadDto save(UserCreateDto userDto);
     void update(Long id, UserUpdateDto userDto);
     void delete(Long id);
 }

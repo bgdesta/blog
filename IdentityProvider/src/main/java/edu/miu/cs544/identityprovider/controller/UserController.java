@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -34,14 +35,8 @@ public class UserController {
         return ResponseEntity.ok(UserService.findById(id));
     }
 
-    @PostMapping("/")
-    public ResponseEntity<UserReadDto> create(@RequestBody UserCreateDto UserDto) {
-        log.info("User dto received: " + UserDto);
-        return ResponseEntity.ok(UserService.save(UserDto));
-    }
-
     @PutMapping("/{id}")
-    public ResponseEntity update(@PathVariable Long id, @RequestBody UserUpdateDto UserDto) {
+    public ResponseEntity update(@PathVariable Long id, @Valid @RequestBody UserUpdateDto UserDto) {
         UserService.update(id, UserDto);
         return ResponseEntity.ok().build();
     }

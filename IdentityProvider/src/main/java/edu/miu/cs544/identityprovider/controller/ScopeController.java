@@ -10,10 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/scopes")
+@RequestMapping("/security/scopes")
 @RequiredArgsConstructor
 public class ScopeController {
     private final static Logger log = LoggerFactory.getLogger(ScopeController.class);
@@ -31,13 +32,13 @@ public class ScopeController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<ScopeDto> create(@RequestBody ScopeDto scopeDto) {
+    public ResponseEntity<ScopeDto> create(@Valid @RequestBody ScopeDto scopeDto) {
         log.info("Scope dto received: " + scopeDto);
         return ResponseEntity.ok(scopeService.save(scopeDto));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity update(@PathVariable Long id, @RequestBody ScopeDto scopeDto) {
+    public ResponseEntity update(@PathVariable Long id, @Valid @RequestBody ScopeDto scopeDto) {
         scopeService.update(id, scopeDto);
         return ResponseEntity.ok().build();
     }

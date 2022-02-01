@@ -9,7 +9,8 @@ import java.util.List;
 @AllArgsConstructor
 public class JwtTokenDto {
     private String accessToken;
-    private UserReadDto user;
     private String type ;
+    private Long userId;
+    private String role;
     private List<Long> authorizedScopes;
 }
