@@ -5,6 +5,8 @@ spring:
     name: ApiGatewayService
   cloud:
     gateway:
+#      default-filters:
+#        - name: MyAuthenticationFilter
       routes:
         - id: IdentityProviderService
           uri: lb://IDENTITYPROVIDERSERVICE
@@ -40,3 +42,9 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://localhost:8081/eureka
+jwt:
+  secret: adsjasdkfhaskldahhfsdafhasdfdfnalskFHC1AaXdDMGlhc+/rGUMT7RxVSLwLct2j+wgRJ/uJcmM5K0GKTq336rJD/SsLpT/mALTQ9lhhPFCHQFdOrZwzXtH8Kzztx3Gz8SoHtON6PXvlxHv7+zkTG+KKyAEznpyA1oAr3N+kI1IB9ArlKB1SJcMei/H1KofdbYC/RJoyR3H2XKEaBwyAdGUeu+pXaYc4eRAFuJ/ndacKS91A4RrfLaG97enl6zAVljGLQ==%
+  expirationMs: 8640000
+logging:
+  level:
+    root: info
