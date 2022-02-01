@@ -30,6 +30,7 @@ public class ArticleController {
     public Optional<Article> getArticleById(@PathVariable Long id){
         return articleService.getArticleById(id);
     }
+
     // Create an article
     @PostMapping()
     public String createArticle(@Valid @RequestBody PostArticleDto articleDto, BindingResult result){
