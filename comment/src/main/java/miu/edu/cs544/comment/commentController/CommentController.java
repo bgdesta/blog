@@ -5,6 +5,7 @@ import miu.edu.cs544.comment.dto.CommentDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.io.Serializable;
@@ -29,18 +30,19 @@ public class CommentController implements Serializable {
 
     }
         @PostMapping
-        // @RequestHeader String userid
-        public ResponseEntity<CommentDto> createComment(@Valid @RequestBody CommentDto commentDto) {
+        //
+        @PreAuthorize("#role == 'Consumer'")
+        public ResponseEntity<CommentDto> createComment(@Valid @RequestBody CommentDto commentDto, @RequestHeader String userid, @RequestHeader String role ) {
 
-           // userid = "1l";
-            commentDto.setUserId(1l);
+            commentDto.setUserId(Long.parseLong(userid));
             CommentDto savedComment = this.commentService.createComment(commentDto);
             ClientRestTemplate.GetUserByIdAPI(1l);
             return new ResponseEntity<CommentDto>(savedComment,HttpStatus.CREATED);
         }
 
         @PutMapping("/{id}")
-        public CommentDto updateComment(@Valid @RequestBody CommentDto commentDto,  @PathVariable(value = "id") long commentId, @RequestHeader String userId){
+        @PreAuthorize("#role == 'Consumer'")
+        public CommentDto updateComment(@Valid @RequestBody CommentDto commentDto,  @PathVariable(value = "id") long commentId, @RequestHeader String userId, @RequestHeader String role ){
             commentDto.setUserId(Long.parseLong(userId));
             return  this.commentService.updateComment(commentDto,commentId);
         }

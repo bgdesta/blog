@@ -1,5 +1,5 @@
 package miu.edu.cs544.reaction.enums;
 
-public enum ReactName {
+public enum ReactionName {
     LIKE, DISLIKE;
 }

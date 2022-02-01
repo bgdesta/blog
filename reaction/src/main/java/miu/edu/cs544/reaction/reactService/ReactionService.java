@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
-public interface ReactService {
+public interface ReactionService {
 
 
     public List<Reaction> getAllReacts();

@@ -1,10 +1,10 @@
 package miu.edu.cs544.reaction.reactController;
 
 import miu.edu.cs544.reaction.domain.Reaction;
-import miu.edu.cs544.reaction.reactService.ReactService;
+import miu.edu.cs544.reaction.reactService.ReactionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -12,9 +12,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/reacts")
-public class ReactController {
+public class ReactionController {
     @Autowired
-    ReactService reactService;
+    ReactionService reactService;
 
 
     @GetMapping
@@ -30,6 +30,7 @@ public class ReactController {
     }
 
     @PostMapping
+    @PreAuthorize("#role == 'Consumer'")
     public Reaction createReact(@RequestBody Reaction react) {
 
             return this.reactService.createReact(react);

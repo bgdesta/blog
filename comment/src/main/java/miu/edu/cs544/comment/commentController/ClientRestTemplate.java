@@ -45,6 +45,7 @@ public class ClientRestTemplate {
         System.out.println(user.getPhoneNumber());
 
     }
+
     //---------------------------------------------------------
     private static void callGetAllCommentAPI(){
         HttpHeaders headers = new HttpHeaders();
