@@ -1,0 +1,19 @@
+<project>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>edu.miu.cs544</groupId>
+	<artifactId>Blog</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>Blog Services</name>
+	<description>Blog Services</description>
+  <packaging>pom</packaging>
+  <modules>
+    <module>Discovery</module>
+	<module>ApiGateway</module>
+    <module>IdentityProvider</module>
+    <module>Network</module>
+    <module>article-service</module>
+    <module>topic-service</module>
+    <module>Comment</module>
+    <module>Reaction</module>
+  </modules>
+</project>
