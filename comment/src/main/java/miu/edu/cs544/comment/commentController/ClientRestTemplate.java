@@ -1,6 +1,7 @@
 package miu.edu.cs544.comment.commentController;
 
 import miu.edu.cs544.comment.domain.Comment;
+import miu.edu.cs544.comment.dto.UserReadDto;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -8,31 +9,43 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-public class RestClient {
+public class ClientRestTemplate {
 
-    private static final String GET_ALL_COMMENTS_API ="http://localhost:8081/api/comments";
-    private static final String GET_COMMENT_BY_ID_API ="http://localhost:8081/api/comments/{id}";
-    private static final String CREATE_COMMENT_API ="http://localhost:8081/api/comments";
-    private static final String UPDATE_COMMENT_API ="http://localhost:8081/api/comments/{id}";
-    private static final String DELETE_COMMENT_API ="http://localhost:8081/api/comments/{id}";
+    private static final String GET_ALL_COMMENTS_API ="http://localhost:8087/comments";
+    private static final String GET_COMMENT_BY_ID_API ="http://localhost:8087/comments/{id}";
+    private static final String CREATE_COMMENT_API ="http://localhost:8087/comments";
+    private static final String UPDATE_COMMENT_API ="http://localhost:8087/comments/{id}";
+    private static final String DELETE_COMMENT_API ="http://localhost:8087/comments/{id}";
 
 
     static RestTemplate restTemplate = new RestTemplate();
 
+    private static final String USER_INFO_API ="http://localhost:8080/users/{id}";
 
     public static void  main(String[] args){
 
-        callCreateCommentAPI();
-        callCreateCommentAPI();
-
-        callGetAllCommentAPI();
-        callGetCommentByIdAPI();
-
-        callUpdateCommentAPI();
-        callGetAllCommentAPI();
-        callDeleteAPI();
+//        callCreateCommentAPI();
+//        callCreateCommentAPI();
+//
+//        callGetAllCommentAPI();
+//        callGetCommentByIdAPI();
+//
+//        callUpdateCommentAPI();
+//        callGetAllCommentAPI();
+//        callDeleteAPI();
 
     }
+    //-------------------------------------------
+    public static void GetUserByIdAPI(Long id){
+        Map<String, Long> param = new HashMap<>();
+        param.put("id", id); //to update comment with id = 1
+        UserReadDto user = restTemplate.getForObject(USER_INFO_API, UserReadDto.class, param);
+        System.out.println(user.getFirstName());
+        System.out.println(user.getLastName());
+        System.out.println(user.getPhoneNumber());
+
+    }
+    //---------------------------------------------------------
     private static void callGetAllCommentAPI(){
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));

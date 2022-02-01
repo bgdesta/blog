@@ -2,8 +2,10 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://localhost:8081/eureka
-    instance:
-    preferIpAddress: true
+#    instance:
+#    preferIpAddress: true
 spring:
   application:
-    name: commentservice
+    name: CommentService
+server:
+  port: 8087

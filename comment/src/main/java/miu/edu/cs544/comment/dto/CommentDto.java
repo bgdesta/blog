@@ -14,6 +14,7 @@ import javax.validation.constraints.Size;
 
 public class CommentDto {
     private Long comId;
+    private Long userId;
     @NotBlank
     @NotEmpty(message = "Title Couldn't be empty")
     @Size(min = 2, message =  "Title Couldn't be empty")

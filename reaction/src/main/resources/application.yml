@@ -8,5 +8,5 @@ spring:
   application:
     name: reactionservice
 
-  server:
-      port:8086:
+server:
+  port: 8086

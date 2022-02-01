@@ -11,7 +11,7 @@ import java.io.Serializable;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/comments")
+@RequestMapping("/comments")
 public class CommentController implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -29,15 +29,19 @@ public class CommentController implements Serializable {
 
     }
         @PostMapping
-
+        // @RequestHeader String userid
         public ResponseEntity<CommentDto> createComment(@Valid @RequestBody CommentDto commentDto) {
 
+           // userid = "1l";
+            commentDto.setUserId(1l);
             CommentDto savedComment = this.commentService.createComment(commentDto);
+            ClientRestTemplate.GetUserByIdAPI(1l);
             return new ResponseEntity<CommentDto>(savedComment,HttpStatus.CREATED);
         }
 
         @PutMapping("/{id}")
-        public CommentDto updateComment(@Valid @RequestBody CommentDto commentDto,  @PathVariable(value = "id") long commentId){
+        public CommentDto updateComment(@Valid @RequestBody CommentDto commentDto,  @PathVariable(value = "id") long commentId, @RequestHeader String userId){
+            commentDto.setUserId(Long.parseLong(userId));
             return  this.commentService.updateComment(commentDto,commentId);
         }
         @DeleteMapping("/{id}")

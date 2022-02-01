@@ -8,7 +8,7 @@ import miu.edu.cs544.comment.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.*;
+
 import org.modelmapper.ModelMapper;
 
 import java.util.ArrayList;
@@ -43,8 +43,12 @@ public class CommentServiceImp implements CommentService {
 
 
     public CommentDto createComment(CommentDto commentDto) {
-        this.commentRepository.save(convertToEntity(commentDto));
-        return commentDto;
+        Comment comment = convertToEntity(commentDto);
+        comment.setPublishedAt(new Date());
+        comment.setCreatedAt(new Date());
+        comment.setPublished(true);
+        this.commentRepository.save(comment);
+        return convertToDto(this.commentRepository.save(comment));
     }
 
 
@@ -54,10 +58,6 @@ public class CommentServiceImp implements CommentService {
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with id :" + commentId));
         Comment comment = convertToEntity(commentDto);
         this.commentRepository.save(comment);
-        //existingComment.setContent(comment.getContent());
-        //existingComment.setTitle(comment.getTitle());
-        //existingComment.setCreatedAt(comment.getCreatedAt());
-
         return commentDto;
     }
 
