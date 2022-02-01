@@ -4,7 +4,10 @@ import edu.miu.cs544.identityprovider.domain.Scope;
 import edu.miu.cs544.identityprovider.dto.*;
 import edu.miu.cs544.identityprovider.jwt.JwtTokenUtil;
 import edu.miu.cs544.identityprovider.service.UserSecurityService;
+import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -12,6 +15,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,6 +24,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @RequestMapping("/security")
 public class UserSecurityController {
+    private final static Logger log = LoggerFactory.getLogger(UserSecurityController.class);
     private final UserSecurityService userSecurityService;
     private final AuthenticationManager authenticationManager;
     private final JwtTokenUtil jwtTokenUtil;
@@ -29,22 +35,37 @@ public class UserSecurityController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<JwtTokenDto> login(@RequestBody LoginDto loginDto) {
+    public ResponseEntity<JwtTokenDto> login(@Valid @RequestBody LoginDto loginDto) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginDto.getUserName(), loginDto.getPassword())
         );
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String token = jwtTokenUtil.generateJwtToken(authentication);
-        UserReadDto userDto = userSecurityService.currentUserDto();
-        List<Long> authorizedScopes = userSecurityService.getUserAuthorizedScopes(userDto.getId()).stream()
+
+        Long userId = userSecurityService.currentUserDto().getId();
+        String role = userSecurityService.getUserRoles(userId).get(0).getName();
+        List<Long> authorizedScopes = userSecurityService.getUserAuthorizedScopes(userId).stream()
                 .map(scopeDto -> scopeDto.getId()).collect(Collectors.toList());
+        HashMap<String, Object> claims = new HashMap<>();
+        System.out.println("From logindto :" + loginDto.getUserName());
+        claims.put("userName", loginDto.getUserName());
+        System.out.println("From claims controller: " + claims.get("userName"));
+        claims.put("userId", userId);
+        claims.put("role", role);
+        claims.put("scopes", authorizedScopes);
+        String token = jwtTokenUtil.generateJwtToken(claims);
         return ResponseEntity.ok(
-                new JwtTokenDto(token, userDto, "Bearer", authorizedScopes)
+                new JwtTokenDto(token, "Bearer", userId, role , authorizedScopes)
         );
     }
 
+    @PostMapping("/register")
+    public ResponseEntity<UserReadDto> createUser(@Valid @RequestBody UserCreateDto UserDto) {
+        log.info("User dto received: " + UserDto);
+        return ResponseEntity.ok(userSecurityService.createUser(UserDto));
+    }
+
     @PostMapping("/changePassword")
-    public ResponseEntity changePassword(@RequestBody ChangePasswordDto changePasswordDto) {
+    public ResponseEntity changePassword(@Valid @RequestBody ChangePasswordDto changePasswordDto) {
         if(userSecurityService.changePassword(changePasswordDto.getCurrentPassword(), changePasswordDto.getNewPassword())) {
             return ResponseEntity.ok().build();
         }
@@ -60,7 +81,7 @@ public class UserSecurityController {
     }
 
     @PostMapping("/forgotPassword")
-    public ResponseEntity forgotPassword(@RequestBody String email) {
+    public ResponseEntity forgotPassword(@Valid @RequestBody String email) {
         if(userSecurityService.forgotPassword(email)) {
             return ResponseEntity.ok().build();
         }
@@ -68,7 +89,7 @@ public class UserSecurityController {
     }
 
     @PostMapping("/resetPassword")
-    public ResponseEntity resetPassword(@RequestParam String code, @RequestBody String newPassword) {
+    public ResponseEntity resetPassword(@RequestParam String code, @Valid @RequestBody String newPassword) {
         if(userSecurityService.resetPassword(code, newPassword)) {
             return ResponseEntity.ok().build();
         }
@@ -86,7 +107,7 @@ public class UserSecurityController {
     }
 
     @PostMapping("/users/{userId}/roles/")
-    public ResponseEntity addRole(@PathVariable Long userId, @RequestBody IdDto roleId) {
+    public ResponseEntity addRole(@PathVariable Long userId, @Valid @RequestBody IdDto roleId) {
         if(userSecurityService.addRoleToUser(userId, roleId.getId())) {
             return ResponseEntity.ok().build();
         }
@@ -94,7 +115,7 @@ public class UserSecurityController {
     }
 
     @PostMapping("/users/{userId}/scopes/")
-    public ResponseEntity addScope(@PathVariable Long userId, @RequestBody IdDto scopeId) {
+    public ResponseEntity addScope(@PathVariable Long userId, @Valid @RequestBody IdDto scopeId) {
         if(userSecurityService.addScopeToUser(userId, scopeId.getId())) {
             return ResponseEntity.ok().build();
         }

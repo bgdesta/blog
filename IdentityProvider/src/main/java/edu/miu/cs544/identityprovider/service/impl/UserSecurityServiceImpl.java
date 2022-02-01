@@ -52,6 +52,43 @@ public class UserSecurityServiceImpl implements UserSecurityService {
     }
 
     @Override
+    public UserReadDto createUser(UserCreateDto userDto) {
+        User user = mapper.map(userDto, User.class);
+
+        UserSecurity userSecurity = defaultUserSecurity(user.getEmail(), userDto.getPassword());
+        user.setUserSecurity(userSecurity);
+
+        userRepository.save(user);
+        log.info("New user created: " + user);
+
+        sendEmailVerification(user.getEmail(), userSecurity.getEmailVerificationCode().getCode());
+        return mapper.map(user, UserReadDto.class);
+    }
+
+    private void sendEmailVerification(String email, String code) {
+        log.info("Sending Email To: " + email + " with Code: " + code);
+    }
+
+    private UserSecurity defaultUserSecurity(String userName, String password) {
+        UserSecurity userSecurity = new UserSecurity();
+        userSecurity.setEnabled(true);
+        userSecurity.setLocked(false);
+        userSecurity.setVerified(false);
+        userSecurity.setAccountExpiration(LocalDateTime.now().plusYears(1));
+        userSecurity.setPasswordExpiration(LocalDateTime.now().plusYears(1));
+
+        SecurityCode securityCode = new SecurityCode();
+        securityCode.setCode(RandomString.make(64));
+        securityCode.setExpiration(LocalDateTime.now().plusWeeks(1));
+        userSecurity.setEmailVerificationCode(securityCode);
+
+        userSecurity.setUserName(userName);
+        userSecurity.setPassword(passwordEncoder.encode(password));
+        userSecurity.addRole(roleRepository.findById(3L).orElseThrow());
+        return userSecurity;
+    }
+
+    @Override
     public UserReadDto currentUserDto() {
         UserSecurity userSecurity = (UserSecurity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return mapper.map(userSecurity.getUser(), UserReadDto.class);

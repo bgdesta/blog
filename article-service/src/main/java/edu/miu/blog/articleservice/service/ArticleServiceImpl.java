@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -79,5 +80,10 @@ public class ArticleServiceImpl implements ArticleService {
         modelMapper.map(articleDto, article);
 
         return articleRepository.save(article);
+    }
+
+    @Override
+    public Optional<Article> getArticleById(Long id) {
+        return articleRepository.findById(id);
     }
 }

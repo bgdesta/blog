@@ -20,14 +20,11 @@ public class Article {
     @GeneratedValue
     private Long id;
 
-//    @NotBlank
     private String title;
 
-//    @NotEmpty(message = "* Summary for articles are needed")
     private String summary;
 
     @Lob
-//    @NotEmpty(message = "* Article content can't be empty")
     private String content;
     private boolean isPublished;    // Could also be an ENUM - PUBLISHED, DRAFT
     private Date createdAt;

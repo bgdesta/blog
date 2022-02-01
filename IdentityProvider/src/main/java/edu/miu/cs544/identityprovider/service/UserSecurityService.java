@@ -9,6 +9,8 @@ import java.util.List;
 
 public interface UserSecurityService extends UserDetailsService {
 
+    UserReadDto createUser(UserCreateDto userDto);
+
     UserReadDto currentUserDto();
     User currentUser();
     boolean changePassword(String currentPassword, String newPassword);

@@ -7,8 +7,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.io.Serializable;
+import java.security.Key;
 import java.util.Date;
+import java.util.HashMap;
 
 @Component
 public class JwtTokenUtil implements Serializable {
@@ -21,31 +24,41 @@ public class JwtTokenUtil implements Serializable {
     @Value("${app.jwt.expirationMs}")
     private int JwtExpirationMs;
 
+    private Key key;
+
+    @PostConstruct
+    public void init(){
+        this.key = Keys.hmacShaKeyFor(secret.getBytes());
+        System.out.println(key.getEncoded());
+    }
+
     public String generateJwtToken(UserSecurity userSecurity) {
         return generateTokenFromUserName(userSecurity.getUsername());
     }
-    public String generateJwtToken(Authentication authentication) {
-        UserSecurity userPrincipal = (UserSecurity) authentication.getPrincipal();
+    public String generateJwtToken(HashMap<String, Object> claims) {
+        System.out.println(claims.get("userName"));
         return Jwts.builder()
-                .setSubject(userPrincipal.getUsername())
+                .setSubject((String) claims.get("userName"))
+                .setClaims(claims)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + JwtExpirationMs))
-                .signWith(SignatureAlgorithm.HS512, secret)
+                .signWith(key)
                 .compact();
 
     }
     public String generateTokenFromUserName(String userName) {
         return Jwts.builder().setSubject(userName).setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + JwtExpirationMs))
-                .signWith(SignatureAlgorithm.HS512, secret)
+                .signWith(key)
                 .compact();
     }
     public String getUserNameFromJwtToken(String token) {
-        return Jwts.parserBuilder().setSigningKey(secret).build().parseClaimsJws(token).getBody().getSubject();
+        return (String)Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().get("userName");
+//        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().getSubject();
     }
     public Boolean validateToken(String token) {
         try {
-            Jwts.parserBuilder().setSigningKey(secret).build().parseClaimsJws(token);
+            Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             return true;
         } catch (SignatureException e) {
            // logger.error("Invalid JWT signature: {}", e.getMessage());
