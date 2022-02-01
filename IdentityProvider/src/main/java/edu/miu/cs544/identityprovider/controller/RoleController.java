@@ -11,10 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/roles")
+@RequestMapping("/security/roles")
 public class RoleController {
     private final static Logger log = LoggerFactory.getLogger(RoleController.class);
 
@@ -36,13 +37,13 @@ public class RoleController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<RoleDto> create(@RequestBody RoleDto roleDto) {
+    public ResponseEntity<RoleDto> create(@Valid @RequestBody RoleDto roleDto) {
         log.info("Role dto received: " + roleDto);
         return ResponseEntity.ok(roleService.save(roleDto));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity update(@PathVariable Long id, @RequestBody RoleDto roleDto) {
+    public ResponseEntity update(@PathVariable Long id, @Valid @RequestBody RoleDto roleDto) {
         roleService.update(id, roleDto);
         return ResponseEntity.ok().build();
     }
@@ -59,7 +60,7 @@ public class RoleController {
     }
 
     @PostMapping("/{roleId}/scopes/")
-    public ResponseEntity addScope(@PathVariable Long roleId, @RequestBody IdDto scopeId) {
+    public ResponseEntity addScope(@PathVariable Long roleId, @Valid @RequestBody IdDto scopeId) {
         if(roleService.addScope(roleId, scopeId.getId())) {
             return ResponseEntity.ok().build();
         }
