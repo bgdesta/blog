@@ -52,23 +52,21 @@ public class UserSecurityServiceImpl implements UserSecurityService {
     }
 
     @Override
-    public UserReadDto createUser(UserCreateDto userDto) {
+    public Optional<UserReadDto> createUser(UserCreateDto userDto) {
         User user = mapper.map(userDto, User.class);
-
-        log.info("New user Entry: " + user);
+        Optional<UserSecurity> optionalUser = userSecurityRepository.findByUserName(userDto.getEmail());
+        if(optionalUser.isPresent()) {
+            log.warn("User with email: " + userDto.getEmail() + " found!");
+            return Optional.empty();
+        }
         UserSecurity userSecurity = defaultUserSecurity(user.getEmail(), userDto.getPassword());
         user.setUserSecurity(userSecurity);
-
-        log.info("New user Before: " + user);
+        Role role = defaultRole();
+        userSecurity.addRole(role);
         userRepository.save(user);
-        log.info("New user created: " + user);
 
         sendEmailVerification(user.getEmail(), userSecurity.getEmailVerificationCode().getCode());
-        return mapper.map(user, UserReadDto.class);
-    }
-
-    private void sendEmailVerification(String email, String code) {
-        log.info("Sending Email To: " + email + " with Code: " + code);
+        return Optional.of(mapper.map(user, UserReadDto.class));
     }
 
     private UserSecurity defaultUserSecurity(String userName, String password) {
@@ -86,9 +84,16 @@ public class UserSecurityServiceImpl implements UserSecurityService {
 
         userSecurity.setUserName(userName);
         userSecurity.setPassword(passwordEncoder.encode(password));
-//        Optional<Role> role = roleRepository.findByName("Consumer");
-//        userSecurity.addRole(role.orElse(null));
         return userSecurity;
+    }
+
+    private void sendEmailVerification(String email, String code) {
+        log.info("Sending Email To: " + email + " with Code: " + code);
+    }
+
+    private Role defaultRole() {
+        Optional<Role> role = roleRepository.findByName("Consumer");
+        return role.orElse(null);
     }
 
     @Override
@@ -99,8 +104,12 @@ public class UserSecurityServiceImpl implements UserSecurityService {
 
     @Override
     public User currentUser() {
-        UserSecurity userSecurity = (UserSecurity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return userSecurity.getUser();
+        Object userObject = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(userObject != null) {
+            UserSecurity userSecurity = (UserSecurity)userObject;
+            return userSecurity.getUser();
+        }
+        return null;
     }
 
     @Override

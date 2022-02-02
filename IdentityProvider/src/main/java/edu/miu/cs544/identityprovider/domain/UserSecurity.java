@@ -1,6 +1,7 @@
 package edu.miu.cs544.identityprovider.domain;
 
 import lombok.*;
+import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,6 +24,7 @@ public class UserSecurity implements UserDetails {
     @OneToOne(mappedBy = "userSecurity")
     private User user;
 
+    @Column(unique = true)
     private String userName;
     private String password;
 
@@ -44,8 +46,8 @@ public class UserSecurity implements UserDetails {
     private LocalDateTime passwordExpiration;
     private LocalDateTime lastLogin;
 
-    @OneToMany(fetch = FetchType.EAGER)
     @Setter(AccessLevel.NONE)
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Role> roles = new ArrayList<>();
 
     @OneToMany

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -65,8 +66,11 @@ public class UserSecurityController {
 
     @PostMapping("/register")
     public ResponseEntity<UserReadDto> createUser(@Valid @RequestBody UserCreateDto UserDto) {
-        log.info("User dto received: " + UserDto);
-        return ResponseEntity.ok(userSecurityService.createUser(UserDto));
+        Optional<UserReadDto> userReadDto = userSecurityService.createUser(UserDto);
+        if(userReadDto.isPresent()) {
+            return ResponseEntity.ok(userReadDto.get());
+        }
+        return ResponseEntity.badRequest().build();
     }
 
     @PostMapping("/changePassword")

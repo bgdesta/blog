@@ -6,10 +6,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 public interface UserSecurityService extends UserDetailsService {
 
-    UserReadDto createUser(UserCreateDto userDto);
+    Optional<UserReadDto> createUser(UserCreateDto userDto);
 
     UserReadDto currentUserDto();
     User currentUser();
